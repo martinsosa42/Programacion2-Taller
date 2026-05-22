@@ -1,45 +1,49 @@
 public class Arbitraje {
-
+    private CategoriaArbitro rol;
     // RELACION
     private Arbitro arbitro;
-
-    // ENUM
-    private CategoriaArbitro categoria;
+    private Partido partido;
 
     // CONSTRUCTOR
-    public Arbitraje(Arbitro arbitro,
-                     CategoriaArbitro categoria) {
-
+    public Arbitraje(CategoriaArbitro rol,
+                        Arbitro arbitro,
+                        Partido partido) {
+        this.rol = rol;
         this.arbitro = arbitro;
-        this.categoria = categoria;
+        this.partido = partido;
     }
 
     // GETTERS
+    public CategoriaArbitro getRol() {
+        return rol;
+    }
 
     public Arbitro getArbitro() {
         return arbitro;
     }
 
-    public CategoriaArbitro getCategoria() {
-        return categoria;
+    public Partido getPartido() {
+        return partido;
     }
 
     // SETTERS
-
     public void setArbitro(Arbitro arbitro) {
         this.arbitro = arbitro;
     }
 
-    public void setCategoria(CategoriaArbitro categoria) {
-        this.categoria = categoria;
+    public void setRol(CategoriaArbitro rol) {
+        this.rol = rol;
+    }
+
+    public void setPartido(Partido partido){
+        this.partido = partido;
     }
 
     // TOSTRING
-
     @Override
     public String toString() {
 
-        return "Categoria: " + categoria +
+        return "Categoria: " + rol +
                 ", Arbitro: " + arbitro.getNombre();
     }
 }
