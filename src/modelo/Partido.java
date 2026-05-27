@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 public class Partido {
 
     // ATRIBUTOS
@@ -10,42 +9,37 @@ public class Partido {
 
     // RELACIONES
     private Estadio estadio;
+
     private Seleccion seleccionLocal;
+
     private Seleccion seleccionVisitante;
-    //COMPOSICION
-    private ArrayList<Evento> eventos;
-    //ASOCIACION 
-    private ArrayList <Arbitraje> arbitrajes;
 
-    //CONSTRUCTOR POR DEFECTO
-    public Partido(){
-        this.eventos = new ArrayList<Evento>();
-        this.arbitrajes = new ArrayList<Arbitraje>();
-    }
+    private Arbitraje[] arbitrajes;
 
-    // CONSTRUCTOR PARAMETRIZADO
+    private Evento[] eventos;
+
+    // CONSTRUCTOR
     public Partido(String fecha,
                    String hora,
                    NombreFase fase,
                    Estadio estadio,
                    Seleccion seleccionLocal,
-                   Seleccion seleccionVisitante) {
+                   Seleccion seleccionVisitante,
+                   Arbitraje[] arbitrajes,
+                   Evento[] eventos) {
+
         this.fecha = fecha;
         this.hora = hora;
         this.fase = fase;
+
         this.estadio = estadio;
+
         this.seleccionLocal = seleccionLocal;
         this.seleccionVisitante = seleccionVisitante;
-        this.eventos = new ArrayList<Evento>();
-        this.arbitrajes = new ArrayList<Arbitraje>();
-    }
 
-    public void agregarEvento(TipoEvento tipo, int minuto, Jugador jugador){
-        eventos.add(new Evento(tipo, minuto, jugador));
-    }
+        this.arbitrajes = arbitrajes;
 
-    public void agregarArbitraje(Arbitraje a){
-        arbitrajes.add(a);
+        this.eventos = eventos;
     }
 
     // GETTERS
@@ -73,16 +67,17 @@ public class Partido {
     public Seleccion getSeleccionVisitante() {
         return seleccionVisitante;
     }
-    
-    public ArrayList<Evento> getEventos(){
-        return eventos;
-    }
 
-    public ArrayList<Arbitraje> getArbitrajes(){
+    public Arbitraje[] getArbitrajes() {
         return arbitrajes;
     }
 
+    public Evento[] getEventos() {
+        return eventos;
+    }
+
     // SETTERS
+
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
@@ -107,12 +102,12 @@ public class Partido {
         this.seleccionVisitante = seleccionVisitante;
     }
 
-    public void setEventos(ArrayList<Evento>eventos){
-        this.eventos = eventos;
+    public void setArbitrajes(Arbitraje[] arbitrajes) {
+        this.arbitrajes = arbitrajes;
     }
 
-    public void setArbitrajes(ArrayList<Arbitraje>arbitrajes){
-        this.arbitrajes = arbitrajes;
+    public void setEventos(Evento[] eventos) {
+        this.eventos = eventos;
     }
 
     // TOSTRING

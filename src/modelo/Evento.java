@@ -4,18 +4,25 @@ public class Evento {
     private int minuto;
 
     // ENUM
-    private TipoEvento tipo;
+    private TipoEvento tipoEvento;
 
     // RELACIONES
     private Jugador jugador;
 
+    private Partido partido;
+
     // CONSTRUCTOR
-    public Evento(TipoEvento tipo,
-                  int minuto,
-                  Jugador jugador) {
+    public Evento(int minuto,
+                  TipoEvento tipoEvento,
+                  Jugador jugador,
+                  Partido partido) {
+
         this.minuto = minuto;
-        this.tipo = tipo;
+        this.tipoEvento = tipoEvento;
+
         this.jugador = jugador;
+
+        this.partido = partido;
     }
 
     // GETTERS
@@ -24,12 +31,16 @@ public class Evento {
         return minuto;
     }
 
-    public TipoEvento getTipo() {
-        return tipo;
+    public TipoEvento getTipoEvento() {
+        return tipoEvento;
     }
 
     public Jugador getJugador() {
         return jugador;
+    }
+
+    public Partido getPartido() {
+        return partido;
     }
 
     // SETTERS
@@ -38,12 +49,16 @@ public class Evento {
         this.minuto = minuto;
     }
 
-    public void setTipo(TipoEvento tipo) {
-        this.tipo = tipo;
+    public void setTipoEvento(TipoEvento tipoEvento) {
+        this.tipoEvento = tipoEvento;
     }
 
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
+    }
+
+    public void setPartido(Partido partido) {
+        this.partido = partido;
     }
 
     // TOSTRING
@@ -52,7 +67,7 @@ public class Evento {
     public String toString() {
 
         return "Minuto: " + minuto +
-                ", Evento: " + tipo +
+                ", Evento: " + tipoEvento +
                 ", Jugador: " + jugador.getNombre();
     }
 }

@@ -23,7 +23,9 @@ public class Seleccion {
                      boolean cabezaGrupo,
                      int rankingFIFA,
                      Pais pais,
-                     DirectorTecnico directorTecnico) {
+                     DirectorTecnico directorTecnico,
+                     Jugador[] jugadores,
+                     CuerpoTecnico[] cuerpoTecnico) {
 
         this.nombreFederacion = nombreFederacion;
         this.camisetaPrincipal = camisetaPrincipal;
@@ -33,6 +35,8 @@ public class Seleccion {
 
         this.pais = pais;
         this.directorTecnico = directorTecnico;
+        this.jugadores = jugadores;
+        this.cuerpoTecnico = cuerpoTecnico;
     }
 
     // GETTERS
@@ -65,6 +69,14 @@ public class Seleccion {
         return directorTecnico;
     }
 
+    public Jugador[] getJugadores() {
+        return jugadores;
+    }
+
+    public CuerpoTecnico[] getCuerpoTecnico() {
+        return cuerpoTecnico;
+    }
+
     // SETTERS
 
     public void setNombreFederacion(String nombreFederacion) {
@@ -93,6 +105,14 @@ public class Seleccion {
 
     public void setDirectorTecnico(DirectorTecnico directorTecnico) {
         this.directorTecnico = directorTecnico;
+    }
+
+    public void setJugadores(Jugador[] jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public void setCuerpoTecnico(CuerpoTecnico[] cuerpoTecnico) {
+        this.cuerpoTecnico = cuerpoTecnico;
     }
 
     // TOSTRING

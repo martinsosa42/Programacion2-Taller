@@ -1,78 +1,93 @@
-import java.util.ArrayList;
 public class Mundial {
 
     // ATRIBUTOS
+    private String nombre;
+
     private int anio;
-    private String mascota;
-    private int fechaDesde;
-    private int fechaHasta;
 
-    // Agregacion
-    private ArrayList<Sede> sedes;    
+    // RELACIONES
+    private Grupo[] grupos;
 
-    // CONSTRUCTOR POR DEFECTO
-    public Mundial() {
-        this.sedes = new ArrayList<Sede>();
-    }
+    private Partido[] partidos;
 
-    public Mundial(int anio, 
-                    String mascota,
-                    int fechaDesde, 
-                    int fechaHasta){
+    private Sede[] sedes;
+
+    private Participacion[] participaciones;
+
+    // CONSTRUCTOR
+    public Mundial(String nombre,
+                   int anio,
+                   Grupo[] grupos,
+                   Partido[] partidos,
+                   Sede[] sedes,
+                   Participacion[] participaciones) {
+
+        this.nombre = nombre;
         this.anio = anio;
-        this.mascota = mascota;
-        this.fechaDesde = fechaDesde;
-        this.fechaHasta = fechaHasta;
-        this.sedes = new ArrayList<Sede>();
-    }
-    
-    public void agregarSede(Sede s){
-        sedes.add(s);
+
+        this.grupos = grupos;
+
+        this.partidos = partidos;
+
+        this.sedes = sedes;
+
+        this.participaciones = participaciones;
     }
 
     // GETTERS
+
+    public String getNombre() {
+        return nombre;
+    }
+
     public int getAnio() {
         return anio;
     }
 
-    public String getMascota() {
-        return mascota;
+    public Grupo[] getGrupos() {
+        return grupos;
     }
 
-    public int getFechaDesde() {
-        return fechaDesde;
+    public Partido[] getPartidos() {
+        return partidos;
     }
 
-    public int getFechaHasta() {
-        return fechaHasta;
-    }
-
-    public ArrayList<Sede> getSedes() {
+    public Sede[] getSedes() {
         return sedes;
     }
-    
+
+    public Participacion[] getParticipaciones() {
+        return participaciones;
+    }
+
     // SETTERS
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public void setAnio(int anio) {
         this.anio = anio;
     }
 
-    public void setMascota(String mascota) {
-        this.mascota = mascota;
+    public void setGrupos(Grupo[] grupos) {
+        this.grupos = grupos;
     }
 
-    public void setFechaDesde(int fechaDesde) {
-        this.fechaDesde = fechaDesde;
+    public void setPartidos(Partido[] partidos) {
+        this.partidos = partidos;
     }
 
-    public void setFechaHasta(int fechaHasta) {
-        this.fechaHasta = fechaHasta;
-    }
-
-    public void setSedes(ArrayList<Sede> sedes) {
+    public void setSedes(Sede[] sedes) {
         this.sedes = sedes;
     }
 
+    public void setParticipaciones(Participacion[] participaciones) {
+        this.participaciones = participaciones;
+    }
+
     // TOSTRING
+
     @Override
     public String toString() {
 
@@ -97,5 +112,4 @@ public class Mundial {
 
         return texto;
     }
-
 }
