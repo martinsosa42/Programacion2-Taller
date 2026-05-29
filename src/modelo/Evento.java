@@ -1,82 +1,52 @@
 public class Evento {
 
-    // ATRIBUTOS
-
+    //Evento de campo. Es composicion de partido, porque se crea dentro de un partido
+    private TipoEvento tipo;
     private int minuto;
-
-    // ENUM
-
-    private TipoEvento tipoEvento;
-
-    // RELACIONES
-
+    
+    //Relacion:
     private Jugador jugador;
-
-    // CONSTRUCTOR
-
-    public Evento(int minuto,
-                  TipoEvento tipoEvento,
-                  Jugador jugador) {
-
-        this.minuto = minuto;
-
-        this.tipoEvento = tipoEvento;
-
-        this.jugador = jugador;
-
-        // ACTUALIZAR ESTADISTICAS
-
-        if(tipoEvento == TipoEvento.GOL) {
-
-            jugador.sumarGol();
-        }
-
-        if(tipoEvento == TipoEvento.TARJETA_AMARILLA) {
-
-            jugador.sumarAmarilla();
-        }
-
-        if(tipoEvento == TipoEvento.TARJETA_ROJA) {
-
-            jugador.sumarRoja();
-        }
+    
+    //Constructor por defecto
+    public Evento() {
     }
-
-    // GETTERS
+    
+    //Constructor Parametrizado
+    public Evento(TipoEvento tipo, int minuto, Jugador jugador) {
+        this.tipo = tipo;
+        this.minuto = minuto;
+        this.jugador = jugador;
+    }
+    
+    //Getters
+    public TipoEvento getTipo() {
+        return tipo;
+    }
 
     public int getMinuto() {
         return minuto;
     }
 
-    public TipoEvento getTipoEvento() {
-        return tipoEvento;
-    }
-
     public Jugador getJugador() {
         return jugador;
     }
-
-    // SETTERS
+    
+    //Setters
+    public void setTipo(TipoEvento tipo) {
+        this.tipo = tipo;
+    }
 
     public void setMinuto(int minuto) {
         this.minuto = minuto;
     }
 
-    public void setTipoEvento(TipoEvento tipoEvento) {
-        this.tipoEvento = tipoEvento;
-    }
-
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
     }
-
-    // TOSTRING
-
+    
+    //toString
     @Override
     public String toString() {
-
-        return "Minuto: " + minuto +
-                " | Evento: " + tipoEvento +
-                " | Jugador: " + jugador.getNombre();
+        return "Minuto: " + minuto + ", Evento: " + tipo + ", Jugador: " + jugador.getNombre();
     }
 }

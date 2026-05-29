@@ -1,5 +1,6 @@
 public class Persona {
 
+    //Atributos
     protected String nombre;
     protected int fecNacimiento;
 
@@ -7,14 +8,12 @@ public class Persona {
     public Persona() {
     }
 
-    // Constructor parametrizado
+    //Constructor Parametrizado
     public Persona(String nombre, int fecNacimiento) {
-
         this.nombre = nombre;
         this.fecNacimiento = fecNacimiento;
     }
-
-    // Getters
+    //Getters
     public String getNombre() {
         return nombre;
     }
@@ -22,8 +21,7 @@ public class Persona {
     public int getFecNacimiento() {
         return fecNacimiento;
     }
-
-    // Setters
+    //Setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -31,12 +29,9 @@ public class Persona {
     public void setFecNacimiento(int fecNacimiento) {
         this.fecNacimiento = fecNacimiento;
     }
-
-    // toString
+    //toString
     @Override
     public String toString() {
-
-        return "Nombre: " + nombre +
-                ", Fecha nacimiento: " + fecNacimiento;
+        return "Nombre: " + nombre + ", Fecha nacimiento: " + fecNacimiento;
     }
 }

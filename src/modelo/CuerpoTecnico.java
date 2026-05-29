@@ -1,34 +1,30 @@
 public class CuerpoTecnico extends Persona {
 
+    //Rol que cumple dentro del cuerpo tecnico
     private Rol rol;
 
-    // Constructor por defecto
+    //Contructor por defecto
     public CuerpoTecnico() {
     }
-
-    // Constructor parametrizado
-    public CuerpoTecnico(String nombre,
-                            int fecNacimiento,
-                            Rol rol) {
+    
+    //Constructor Parametrizado
+    public CuerpoTecnico(String nombre, int fecNacimiento, Rol rol) {
         super(nombre, fecNacimiento);
         this.rol = rol;
     }
-
-    // Getter
+    //Getters
     public Rol getRol() {
         return rol;
     }
 
-    // Setter
+    //Setters
     public void setRol(Rol rol) {
         this.rol = rol;
     }
 
-    // toString
+    //toString
     @Override
     public String toString() {
-
-        return super.toString() +
-                ", Rol: " + rol;
+        return super.toString() + ", Rol: " + rol;
     }
 }

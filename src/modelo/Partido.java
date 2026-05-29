@@ -3,69 +3,60 @@ import java.util.ArrayList;
 public class Partido {
 
     // ATRIBUTOS
-
     private String fecha;
-
     private String hora;
-
+    private int duracion;
+    private int TiempoAdicional;
     private int golesLocal;
-
     private int golesVisitante;
-
-    // ENUM
-
     private NombreFase fase;
 
-    // RELACIONES
-
-    private Estadio estadio;
-
+    // RELACION
     private Seleccion seleccionLocal;
-
     private Seleccion seleccionVisitante;
 
+    // RELACIONES
+    private Estadio estadio;
     private ArrayList<Arbitraje> arbitrajes;
-
     private ArrayList<Evento> eventos;
 
-    // CONSTRUCTOR
+    // CONSTRUCTOR POR DEFECTO
+    public Partido() {
+        this.arbitrajes = new ArrayList<Arbitraje>();
+        this.eventos = new ArrayList<Evento>();
+    }
 
     public Partido(String fecha,
                    String hora,
+                   int duracion,
+                   int TiempoAdicional,
                    NombreFase fase,
-                   Estadio estadio,
-                   Seleccion seleccionLocal,
-                   Seleccion seleccionVisitante) {
-
+                   Estadio estadio) {
         this.fecha = fecha;
-
         this.hora = hora;
-
+        this.duracion = duracion;
+        this.TiempoAdicional = TiempoAdicional;
         this.fase = fase;
-
         this.estadio = estadio;
-
-        this.seleccionLocal = seleccionLocal;
-
-        this.seleccionVisitante = seleccionVisitante;
-
-        golesLocal = 0;
-
-        golesVisitante = 0;
-
-        arbitrajes = new ArrayList<>();
-
-        eventos = new ArrayList<>();
+        this.arbitrajes = new ArrayList<Arbitraje>();
+        this.eventos = new ArrayList<Evento>();
     }
 
     // GETTERS
-
     public String getFecha() {
         return fecha;
     }
 
     public String getHora() {
         return hora;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public int getTiempoAdicional() {
+        return TiempoAdicional;
     }
 
     public int getGolesLocal() {
@@ -80,10 +71,6 @@ public class Partido {
         return fase;
     }
 
-    public Estadio getEstadio() {
-        return estadio;
-    }
-
     public Seleccion getSeleccionLocal() {
         return seleccionLocal;
     }
@@ -92,12 +79,19 @@ public class Partido {
         return seleccionVisitante;
     }
 
+    public Estadio getEstadio() {
+        return estadio;
+    }
+
+    public ArrayList<Arbitraje> getArbitrajes() {
+        return arbitrajes;
+    }
+
     public ArrayList<Evento> getEventos() {
         return eventos;
     }
 
     // SETTERS
-
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
@@ -106,62 +100,66 @@ public class Partido {
         this.hora = hora;
     }
 
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    public void setTiempoAdicional(int tiempoAdicional) {
+        TiempoAdicional = tiempoAdicional;
+    }
+
+    public void setGolesLocal(int golesLocal) {
+        this.golesLocal = golesLocal;
+    }
+
+    public void setGolesVisitante(int golesVisitante) {
+        this.golesVisitante = golesVisitante;
+    }
+
     public void setFase(NombreFase fase) {
         this.fase = fase;
     }
 
-    // METODOS
+    public void setSeleccionLocal(Seleccion seleccionLocal) {
+        this.seleccionLocal = seleccionLocal;
+    }
 
+    public void setSeleccionVisitante(Seleccion seleccionVisitante) {
+        this.seleccionVisitante = seleccionVisitante;
+    }
+
+    public void setEstadio(Estadio estadio) {
+        this.estadio = estadio;
+    }
+
+    public void setArbitrajes(ArrayList<Arbitraje> arbitrajes) {
+        this.arbitrajes = arbitrajes;
+    }
+
+    public void setEventos(ArrayList<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
+    // METODOS
     public void registrarResultado(int golesLocal,
                                    int golesVisitante) {
-
         this.golesLocal = golesLocal;
-
         this.golesVisitante = golesVisitante;
     }
 
     public void agregarEvento(Evento evento) {
-
         eventos.add(evento);
     }
 
     public void agregarArbitraje(Arbitraje arbitraje) {
-
         arbitrajes.add(arbitraje);
     }
 
-    public void mostrarEventos() {
-
-        for(Evento e : eventos) {
-
-            System.out.println(e);
-        }
-    }
-
-    public void mostrarTarjetas() {
-
-        for(Evento e : eventos) {
-
-            if(e.getTipoEvento()
-                    == TipoEvento.TARJETA_AMARILLA ||
-
-               e.getTipoEvento()
-                    == TipoEvento.TARJETA_ROJA) {
-
-                System.out.println(e);
-            }
-        }
-    }
-
     // TOSTRING
-
     @Override
     public String toString() {
-
         String texto = "";
-
         texto += "\n===== PARTIDO =====\n";
-
         texto += seleccionLocal.getNombreFederacion()
                 + " "
                 + golesLocal
@@ -169,23 +167,15 @@ public class Partido {
                 + golesVisitante
                 + " "
                 + seleccionVisitante.getNombreFederacion();
-
         texto += "\nFecha: " + fecha;
-
         texto += "\nHora: " + hora;
-
         texto += "\nFase: " + fase;
-
         texto += "\nEstadio: "
                 + estadio.getNombre();
-
         texto += "\n\n===== EVENTOS =====\n";
-
         for(Evento e : eventos) {
-
             texto += e + "\n";
         }
-
         return texto;
     }
 }

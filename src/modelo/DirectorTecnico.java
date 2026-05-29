@@ -1,36 +1,31 @@
 public class DirectorTecnico extends Persona {
 
+    //Atributo
     private int fechaNombramiento;
 
-    // Constructor por defecto
+    //Constructor por defecto
     public DirectorTecnico() {
     }
-
-    // Constructor parametrizado
-    public DirectorTecnico(String nombre,
-                            int fecNacimiento,
-                            int fechaNombramiento) {
-
+    
+    //Constructor Parametrizado
+    public DirectorTecnico(String nombre, int fecNacimiento, int fechaNombramiento) {
         super(nombre, fecNacimiento);
-
         this.fechaNombramiento = fechaNombramiento;
     }
 
-    // Getter
+    //Getters
     public int getFechaNombramiento() {
         return fechaNombramiento;
     }
 
-    // Setter
+    //Setters
     public void setFechaNombramiento(int fechaNombramiento) {
         this.fechaNombramiento = fechaNombramiento;
     }
 
-    // toString
+    //toString
     @Override
     public String toString() {
-
-        return super.toString() +
-                ", Fecha nombramiento: " + fechaNombramiento;
+        return super.toString() + ", Fecha nombramiento: " + fechaNombramiento;
     }
 }

@@ -1,122 +1,78 @@
+import java.util.ArrayList;
+
 public class Jugador extends Persona {
 
-    // ATRIBUTOS
-
-    private int numero;
-
+    //Atributos
+    private int dorsal;
     private Posicion posicion;
+    private float peso;
+    private float altura;
+    private ArrayList<Evento> eventos;
 
-    private double peso;
-
-    private double altura;
-
-    private int goles;
-
-    private int tarjetasAmarillas;
-
-    private int tarjetasRojas;
-
-    // CONSTRUCTOR
-
-    public Jugador(String nombre,
-                    int fecNacimiento,
-                    int numero,
-                    Posicion posicion,
-                    double peso,
-                    double altura) {
-
-        super(nombre, fecNacimiento);
-
-        this.numero = numero;
-
-        this.posicion = posicion;
-
-        this.peso = peso;
-
-        this.altura = altura;
-
-        goles = 0;
-
-        tarjetasAmarillas = 0;
-
-        tarjetasRojas = 0;
+    //Constructor por defecto
+    public Jugador() {
+        this.eventos = new ArrayList<Evento>();
     }
 
-    // GETTERS
+    //Constructor Parametrizado
+    public Jugador(String nombre, int fecNacimiento, int dorsal, Posicion posicion, float peso, float altura) {
+        super(nombre, fecNacimiento);
+        this.dorsal = dorsal;
+        this.posicion = posicion;
+        this.peso = peso;
+        this.altura = altura;
+        this.eventos = new ArrayList<Evento>();
+    }
 
-    public int getNumero() {
-        return numero;
+    //Getters
+    public int getDorsal() {
+        return dorsal;
     }
 
     public Posicion getPosicion() {
         return posicion;
     }
 
-    public double getPeso() {
+    public float getPeso() {
         return peso;
     }
 
-    public double getAltura() {
+    public float getAltura() {
         return altura;
     }
 
-    public int getGoles() {
-        return goles;
+    public ArrayList<Evento> getEventos() {
+        return eventos;
     }
 
-    public int getTarjetasAmarillas() {
-        return tarjetasAmarillas;
-    }
-
-    public int getTarjetasRojas() {
-        return tarjetasRojas;
-    }
-
-    // SETTERS
-
-    public void setNumero(int numero) {
-        this.numero = numero;
+    //Setters
+    public void setDorsal(int dorsal) {
+        this.dorsal = dorsal;
     }
 
     public void setPosicion(Posicion posicion) {
         this.posicion = posicion;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(float peso) {
         this.peso = peso;
     }
 
-    public void setAltura(double altura) {
+    public void setAltura(float altura) {
         this.altura = altura;
     }
 
-    // METODOS
-
-    public void sumarGol() {
-
-        goles++;
+    public void setEventos(ArrayList<Evento> eventos) {
+        this.eventos = eventos;
     }
 
-    public void sumarAmarilla() {
-
-        tarjetasAmarillas++;
-    }
-
-    public void sumarRoja() {
-
-        tarjetasRojas++;
-    }
-
-    // TOSTRING
-
+    //toString
     @Override
     public String toString() {
-
         return super.toString() +
-                "\nNumero: " + numero +
-                "\nPosicion: " + posicion +
-                "\nGoles: " + goles +
-                "\nAmarillas: " + tarjetasAmarillas +
-                "\nRojas: " + tarjetasRojas;
+                ", Dorsal: " + dorsal +
+                ", Posicion: " + posicion +
+                ", Peso: " + peso +
+                ", Altura: " + altura;
     }
 }
