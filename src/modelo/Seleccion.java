@@ -44,9 +44,6 @@ public class Seleccion {
         if (pais != null) {
             pais.setSeleccion(this);
         }
-        if (directorTecnico != null) {
-            directorTecnico.setSeleccion(this);
-        }
     }
 
     public void agregarDirectorTecnico(DirectorTecnico directorTecnico) {
@@ -163,7 +160,7 @@ public class Seleccion {
     public void setParticipaciones(ArrayList<Participacion> participaciones) {
         this.participaciones = participaciones;
     }
-    
+
     //toString
     @Override
     public String toString() {

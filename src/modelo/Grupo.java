@@ -32,23 +32,6 @@ public class Grupo {
         }
     }
     
-    //Calcula puntos en base a las participaciones de la seleccion.
-    public int obtenerPuntos(Seleccion s) {
-        int puntos = 0;
-        for (Participacion p : s.getParticipaciones()) {
-            Partido partido = p.getPartido();
-            Participacion rival = partido.obtenerParticipacionRival(s);
-            if (rival != null) {
-                if (p.getCantidadGoles() > rival.getCantidadGoles()) {
-                    puntos += 3;
-                } else if (p.getCantidadGoles() == rival.getCantidadGoles()) {
-                    puntos += 1;
-                }
-            }
-        }
-        return puntos;
-    }
-    
     //Getters
     public String getIdentificacion() {
         return identificacion;
