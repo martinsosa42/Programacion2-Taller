@@ -1,31 +1,26 @@
+import java.util.ArrayList;
+
 public class Seleccion {
 
-    // ATRIBUTOS
     private String nombreFederacion;
     private String camisetaPrincipal;
     private String camisetaSecundaria;
     private boolean cabezaGrupo;
     private int rankingFIFA;
 
-    // RELACIONES
     private Pais pais;
-
     private DirectorTecnico directorTecnico;
 
-    private Jugador[] jugadores;
+    private ArrayList<Jugador> jugadores;
+    private ArrayList<CuerpoTecnico> cuerpoTecnico;
 
-    private CuerpoTecnico[] cuerpoTecnico;
-
-    // CONSTRUCTOR
     public Seleccion(String nombreFederacion,
                      String camisetaPrincipal,
                      String camisetaSecundaria,
                      boolean cabezaGrupo,
                      int rankingFIFA,
                      Pais pais,
-                     DirectorTecnico directorTecnico,
-                     Jugador[] jugadores,
-                     CuerpoTecnico[] cuerpoTecnico) {
+                     DirectorTecnico directorTecnico) {
 
         this.nombreFederacion = nombreFederacion;
         this.camisetaPrincipal = camisetaPrincipal;
@@ -35,11 +30,21 @@ public class Seleccion {
 
         this.pais = pais;
         this.directorTecnico = directorTecnico;
-        this.jugadores = jugadores;
-        this.cuerpoTecnico = cuerpoTecnico;
+
+        jugadores = new ArrayList<>();
+        cuerpoTecnico = new ArrayList<>();
     }
 
-    // GETTERS
+    public void agregarJugador(Jugador jugador) {
+
+        jugadores.add(jugador);
+    }
+
+    public void agregarCuerpoTecnico(CuerpoTecnico ct) {
+
+        cuerpoTecnico.add(ct);
+    }
+       // GETTERS
 
     public String getNombreFederacion() {
         return nombreFederacion;
@@ -69,53 +74,13 @@ public class Seleccion {
         return directorTecnico;
     }
 
-    public Jugador[] getJugadores() {
+    public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
 
-    public CuerpoTecnico[] getCuerpoTecnico() {
+    public ArrayList<CuerpoTecnico> getCuerpoTecnico() {
         return cuerpoTecnico;
     }
-
-    // SETTERS
-
-    public void setNombreFederacion(String nombreFederacion) {
-        this.nombreFederacion = nombreFederacion;
-    }
-
-    public void setCamisetaPrincipal(String camisetaPrincipal) {
-        this.camisetaPrincipal = camisetaPrincipal;
-    }
-
-    public void setCamisetaSecundaria(String camisetaSecundaria) {
-        this.camisetaSecundaria = camisetaSecundaria;
-    }
-
-    public void setCabezaGrupo(boolean cabezaGrupo) {
-        this.cabezaGrupo = cabezaGrupo;
-    }
-
-    public void setRankingFIFA(int rankingFIFA) {
-        this.rankingFIFA = rankingFIFA;
-    }
-
-    public void setPais(Pais pais) {
-        this.pais = pais;
-    }
-
-    public void setDirectorTecnico(DirectorTecnico directorTecnico) {
-        this.directorTecnico = directorTecnico;
-    }
-
-    public void setJugadores(Jugador[] jugadores) {
-        this.jugadores = jugadores;
-    }
-
-    public void setCuerpoTecnico(CuerpoTecnico[] cuerpoTecnico) {
-        this.cuerpoTecnico = cuerpoTecnico;
-    }
-
-    // TOSTRING
 
     @Override
     public String toString() {
@@ -123,27 +88,15 @@ public class Seleccion {
         String texto = "";
 
         texto += "Federacion: " + nombreFederacion + "\n";
-        texto += "Pais: " + pais + "\n";
-        texto += "Camiseta principal: " + camisetaPrincipal + "\n";
-        texto += "Camiseta secundaria: " + camisetaSecundaria + "\n";
-        texto += "Cabeza de grupo: " + cabezaGrupo + "\n";
         texto += "Ranking FIFA: " + rankingFIFA + "\n";
+        texto += "Pais: " + pais.getNombre() + "\n";
 
-        texto += "\nDirector Tecnico:\n";
-        texto += directorTecnico + "\n";
-
-        texto += "\nJugadores:\n";
+        texto += "\nJUGADORES\n";
 
         for (Jugador j : jugadores) {
+
             texto += j + "\n";
         }
-
-        texto += "\nCuerpo Tecnico:\n";
-
-        for (CuerpoTecnico ct : cuerpoTecnico) {
-            texto += ct + "\n";
-        }
-
         return texto;
     }
 }

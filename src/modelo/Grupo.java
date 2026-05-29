@@ -1,54 +1,24 @@
+import java.util.ArrayList;
+
 public class Grupo {
-
-    
     private String nombre;
+    private ArrayList<Seleccion> selecciones;
 
-    // RELACION
-    private Seleccion[] selecciones;
-
-    // CONSTRUCTOR
-    public Grupo(String nombre, Seleccion[] selecciones) {
+    public Grupo(String nombre) {
 
         this.nombre = nombre;
-        this.selecciones = selecciones;
+
+        selecciones = new ArrayList<>();
     }
 
-    // GETTERS
+    public void agregarSeleccion(Seleccion seleccion) {
 
+        selecciones.add(seleccion);
+    }
     public String getNombre() {
-        return nombre;
+        return nombre; 
     }
-
-    public Seleccion[] getSelecciones() {
-        return selecciones;
-    }
-
-    // SETTERS
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setSelecciones(Seleccion[] selecciones) {
-        this.selecciones = selecciones;
-    }
-
-    // TOSTRING
-
-    @Override
-    public String toString() {
-
-        String texto = "";
-
-        texto += "Grupo: " + nombre + "\n";
-
-        texto += "\nSelecciones:\n";
-
-        for (Seleccion s : selecciones) {
-
-            texto += s.getNombreFederacion() + "\n";
-        }
-
-        return texto;
+    public void setnombre(String nombre) {
+        this.nombre = nombre; 
     }
 }

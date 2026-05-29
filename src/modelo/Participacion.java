@@ -1,31 +1,51 @@
 public class Participacion {
 
     // ATRIBUTOS
+
     private int puntos;
+
     private int partidosGanados;
+
     private int partidosEmpatados;
+
     private int partidosPerdidos;
 
+    private int golesFavor;
+
+    private int golesContra;
+
+    // ENUM
+
+    private NombreFase faseAlcanzada;
+
     // RELACIONES
+
     private Seleccion seleccion;
 
     private Grupo grupo;
 
     // CONSTRUCTOR
-    public Participacion(int puntos,
-                         int partidosGanados,
-                         int partidosEmpatados,
-                         int partidosPerdidos,
-                         Seleccion seleccion,
+
+    public Participacion(Seleccion seleccion,
                          Grupo grupo) {
 
-        this.puntos = puntos;
-        this.partidosGanados = partidosGanados;
-        this.partidosEmpatados = partidosEmpatados;
-        this.partidosPerdidos = partidosPerdidos;
-
         this.seleccion = seleccion;
+
         this.grupo = grupo;
+
+        puntos = 0;
+
+        partidosGanados = 0;
+
+        partidosEmpatados = 0;
+
+        partidosPerdidos = 0;
+
+        golesFavor = 0;
+
+        golesContra = 0;
+
+        faseAlcanzada = NombreFase.GRUPOS;
     }
 
     // GETTERS
@@ -46,6 +66,18 @@ public class Participacion {
         return partidosPerdidos;
     }
 
+    public int getGolesFavor() {
+        return golesFavor;
+    }
+
+    public int getGolesContra() {
+        return golesContra;
+    }
+
+    public NombreFase getFaseAlcanzada() {
+        return faseAlcanzada;
+    }
+
     public Seleccion getSeleccion() {
         return seleccion;
     }
@@ -56,28 +88,54 @@ public class Participacion {
 
     // SETTERS
 
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
+    public void setFaseAlcanzada(NombreFase faseAlcanzada) {
+        this.faseAlcanzada = faseAlcanzada;
     }
 
-    public void setPartidosGanados(int partidosGanados) {
-        this.partidosGanados = partidosGanados;
+    // METODOS
+
+    public void registrarVictoria(int golesFavor,
+                                  int golesContra) {
+
+        puntos += 3;
+
+        partidosGanados++;
+
+        this.golesFavor += golesFavor;
+
+        this.golesContra += golesContra;
     }
 
-    public void setPartidosEmpatados(int partidosEmpatados) {
-        this.partidosEmpatados = partidosEmpatados;
+    public void registrarEmpate(int golesFavor,
+                                int golesContra) {
+
+        puntos += 1;
+
+        partidosEmpatados++;
+
+        this.golesFavor += golesFavor;
+
+        this.golesContra += golesContra;
     }
 
-    public void setPartidosPerdidos(int partidosPerdidos) {
-        this.partidosPerdidos = partidosPerdidos;
+    public void registrarDerrota(int golesFavor,
+                                 int golesContra) {
+
+        partidosPerdidos++;
+
+        this.golesFavor += golesFavor;
+
+        this.golesContra += golesContra;
     }
 
-    public void setSeleccion(Seleccion seleccion) {
-        this.seleccion = seleccion;
+    public int diferenciaGoles() {
+
+        return golesFavor - golesContra;
     }
 
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
+    public void mostrarResultados() {
+
+        System.out.println(toString());
     }
 
     // TOSTRING
@@ -87,9 +145,25 @@ public class Participacion {
 
         return "Seleccion: "
                 + seleccion.getNombreFederacion()
-                + ", Grupo: "
-                + grupo.getNombre()
-                + ", Puntos: "
-                + puntos;
+
+                + "\nPuntos: " + puntos
+
+                + "\nGanados: "
+                + partidosGanados
+
+                + "\nEmpatados: "
+                + partidosEmpatados
+
+                + "\nPerdidos: "
+                + partidosPerdidos
+
+                + "\nGF: " + golesFavor
+
+                + "\nGC: " + golesContra
+
+                + "\nDG: " + diferenciaGoles()
+
+                + "\nFase alcanzada: "
+                + faseAlcanzada;
     }
 }

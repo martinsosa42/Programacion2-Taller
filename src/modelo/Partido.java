@@ -1,45 +1,61 @@
+import java.util.ArrayList;
+
 public class Partido {
 
     // ATRIBUTOS
+
     private String fecha;
+
     private String hora;
 
+    private int golesLocal;
+
+    private int golesVisitante;
+
     // ENUM
+
     private NombreFase fase;
 
     // RELACIONES
+
     private Estadio estadio;
 
     private Seleccion seleccionLocal;
 
     private Seleccion seleccionVisitante;
 
-    private Arbitraje[] arbitrajes;
+    private ArrayList<Arbitraje> arbitrajes;
 
-    private Evento[] eventos;
+    private ArrayList<Evento> eventos;
 
     // CONSTRUCTOR
+
     public Partido(String fecha,
                    String hora,
                    NombreFase fase,
                    Estadio estadio,
                    Seleccion seleccionLocal,
-                   Seleccion seleccionVisitante,
-                   Arbitraje[] arbitrajes,
-                   Evento[] eventos) {
+                   Seleccion seleccionVisitante) {
 
         this.fecha = fecha;
+
         this.hora = hora;
+
         this.fase = fase;
 
         this.estadio = estadio;
 
         this.seleccionLocal = seleccionLocal;
+
         this.seleccionVisitante = seleccionVisitante;
 
-        this.arbitrajes = arbitrajes;
+        golesLocal = 0;
 
-        this.eventos = eventos;
+        golesVisitante = 0;
+
+        arbitrajes = new ArrayList<>();
+
+        eventos = new ArrayList<>();
     }
 
     // GETTERS
@@ -50,6 +66,14 @@ public class Partido {
 
     public String getHora() {
         return hora;
+    }
+
+    public int getGolesLocal() {
+        return golesLocal;
+    }
+
+    public int getGolesVisitante() {
+        return golesVisitante;
     }
 
     public NombreFase getFase() {
@@ -68,11 +92,7 @@ public class Partido {
         return seleccionVisitante;
     }
 
-    public Arbitraje[] getArbitrajes() {
-        return arbitrajes;
-    }
-
-    public Evento[] getEventos() {
+    public ArrayList<Evento> getEventos() {
         return eventos;
     }
 
@@ -90,24 +110,47 @@ public class Partido {
         this.fase = fase;
     }
 
-    public void setEstadio(Estadio estadio) {
-        this.estadio = estadio;
+    // METODOS
+
+    public void registrarResultado(int golesLocal,
+                                   int golesVisitante) {
+
+        this.golesLocal = golesLocal;
+
+        this.golesVisitante = golesVisitante;
     }
 
-    public void setSeleccionLocal(Seleccion seleccionLocal) {
-        this.seleccionLocal = seleccionLocal;
+    public void agregarEvento(Evento evento) {
+
+        eventos.add(evento);
     }
 
-    public void setSeleccionVisitante(Seleccion seleccionVisitante) {
-        this.seleccionVisitante = seleccionVisitante;
+    public void agregarArbitraje(Arbitraje arbitraje) {
+
+        arbitrajes.add(arbitraje);
     }
 
-    public void setArbitrajes(Arbitraje[] arbitrajes) {
-        this.arbitrajes = arbitrajes;
+    public void mostrarEventos() {
+
+        for(Evento e : eventos) {
+
+            System.out.println(e);
+        }
     }
 
-    public void setEventos(Evento[] eventos) {
-        this.eventos = eventos;
+    public void mostrarTarjetas() {
+
+        for(Evento e : eventos) {
+
+            if(e.getTipoEvento()
+                    == TipoEvento.TARJETA_AMARILLA ||
+
+               e.getTipoEvento()
+                    == TipoEvento.TARJETA_ROJA) {
+
+                System.out.println(e);
+            }
+        }
     }
 
     // TOSTRING
@@ -117,30 +160,28 @@ public class Partido {
 
         String texto = "";
 
-        texto += "PARTIDO\n";
-        texto += "Fecha: " + fecha + "\n";
-        texto += "Hora: " + hora + "\n";
-        texto += "Fase: " + fase + "\n";
+        texto += "\n===== PARTIDO =====\n";
 
-        texto += "\nESTADIO\n";
-        texto += estadio + "\n";
-
-        texto += "\nSELECCIONES\n";
         texto += seleccionLocal.getNombreFederacion()
-                + " VS "
-                + seleccionVisitante.getNombreFederacion()
-                + "\n";
+                + " "
+                + golesLocal
+                + " - "
+                + golesVisitante
+                + " "
+                + seleccionVisitante.getNombreFederacion();
 
-        texto += "\nARBITRAJES\n";
+        texto += "\nFecha: " + fecha;
 
-        for (Arbitraje a : arbitrajes) {
+        texto += "\nHora: " + hora;
 
-            texto += a + "\n";
-        }
+        texto += "\nFase: " + fase;
 
-        texto += "\nEVENTOS\n";
+        texto += "\nEstadio: "
+                + estadio.getNombre();
 
-        for (Evento e : eventos) {
+        texto += "\n\n===== EVENTOS =====\n";
+
+        for(Evento e : eventos) {
 
             texto += e + "\n";
         }

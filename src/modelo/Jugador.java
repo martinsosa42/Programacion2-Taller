@@ -1,73 +1,122 @@
 public class Jugador extends Persona {
 
-    private int dorsal;
+    // ATRIBUTOS
+
+    private int numero;
+
     private Posicion posicion;
-    private float peso;
-    private float altura;
 
-    // Constructor por defecto
-    public Jugador() {
-    }
+    private double peso;
 
-    // Constructor parametrizado
+    private double altura;
+
+    private int goles;
+
+    private int tarjetasAmarillas;
+
+    private int tarjetasRojas;
+
+    // CONSTRUCTOR
+
     public Jugador(String nombre,
                     int fecNacimiento,
-                    int dorsal,
+                    int numero,
                     Posicion posicion,
-                    float peso,
-                    float altura) {
+                    double peso,
+                    double altura) {
 
-        // Constructor padre
         super(nombre, fecNacimiento);
 
-        this.dorsal = dorsal;
+        this.numero = numero;
+
         this.posicion = posicion;
+
         this.peso = peso;
+
         this.altura = altura;
+
+        goles = 0;
+
+        tarjetasAmarillas = 0;
+
+        tarjetasRojas = 0;
     }
 
-    // Getters
-    public int getDorsal() {
-        return dorsal;
+    // GETTERS
+
+    public int getNumero() {
+        return numero;
     }
 
     public Posicion getPosicion() {
         return posicion;
     }
 
-    public float getPeso() {
+    public double getPeso() {
         return peso;
     }
 
-    public float getAltura() {
+    public double getAltura() {
         return altura;
     }
 
-    // Setters
-    public void setDorsal(int dorsal) {
-        this.dorsal = dorsal;
+    public int getGoles() {
+        return goles;
+    }
+
+    public int getTarjetasAmarillas() {
+        return tarjetasAmarillas;
+    }
+
+    public int getTarjetasRojas() {
+        return tarjetasRojas;
+    }
+
+    // SETTERS
+
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public void setPosicion(Posicion posicion) {
         this.posicion = posicion;
     }
 
-    public void setPeso(float peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
-    public void setAltura(float altura) {
+    public void setAltura(double altura) {
         this.altura = altura;
     }
 
-    // toString
+    // METODOS
+
+    public void sumarGol() {
+
+        goles++;
+    }
+
+    public void sumarAmarilla() {
+
+        tarjetasAmarillas++;
+    }
+
+    public void sumarRoja() {
+
+        tarjetasRojas++;
+    }
+
+    // TOSTRING
+
     @Override
     public String toString() {
 
         return super.toString() +
-                ", Dorsal: " + dorsal +
-                ", Posición: " + posicion +
-                ", Peso: " + peso +
-                ", Altura: " + altura;
+                "\nNumero: " + numero +
+                "\nPosicion: " + posicion +
+                "\nGoles: " + goles +
+                "\nAmarillas: " + tarjetasAmarillas +
+                "\nRojas: " + tarjetasRojas;
     }
 }

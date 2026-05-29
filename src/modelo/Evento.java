@@ -1,28 +1,45 @@
 public class Evento {
 
-    // ATRIBUTO
+    // ATRIBUTOS
+
     private int minuto;
 
     // ENUM
+
     private TipoEvento tipoEvento;
 
     // RELACIONES
+
     private Jugador jugador;
 
-    private Partido partido;
-
     // CONSTRUCTOR
+
     public Evento(int minuto,
                   TipoEvento tipoEvento,
-                  Jugador jugador,
-                  Partido partido) {
+                  Jugador jugador) {
 
         this.minuto = minuto;
+
         this.tipoEvento = tipoEvento;
 
         this.jugador = jugador;
 
-        this.partido = partido;
+        // ACTUALIZAR ESTADISTICAS
+
+        if(tipoEvento == TipoEvento.GOL) {
+
+            jugador.sumarGol();
+        }
+
+        if(tipoEvento == TipoEvento.TARJETA_AMARILLA) {
+
+            jugador.sumarAmarilla();
+        }
+
+        if(tipoEvento == TipoEvento.TARJETA_ROJA) {
+
+            jugador.sumarRoja();
+        }
     }
 
     // GETTERS
@@ -39,10 +56,6 @@ public class Evento {
         return jugador;
     }
 
-    public Partido getPartido() {
-        return partido;
-    }
-
     // SETTERS
 
     public void setMinuto(int minuto) {
@@ -57,17 +70,13 @@ public class Evento {
         this.jugador = jugador;
     }
 
-    public void setPartido(Partido partido) {
-        this.partido = partido;
-    }
-
     // TOSTRING
 
     @Override
     public String toString() {
 
         return "Minuto: " + minuto +
-                ", Evento: " + tipoEvento +
-                ", Jugador: " + jugador.getNombre();
+                " | Evento: " + tipoEvento +
+                " | Jugador: " + jugador.getNombre();
     }
 }
