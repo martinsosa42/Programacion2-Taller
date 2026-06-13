@@ -31,7 +31,52 @@ public class Grupo {
             selecciones.add(seleccion);
         }
     }
+
+    public int obtenerPuntos(Seleccion s) {
+        int puntos = 0;
+
+        // Validamos que la selección no sea nula y que pertenezca a este grupo
+        if (s == null || !this.selecciones.contains(s)) {
+            return 0;
+        }
+
+        // Navegamos a la fase para obtener los partidos programados
+        if (this.fase != null && this.fase.getPartidos() != null) {
+        
+        // Recorremos todos los partidos de la fase
+        for (Partido partido : this.fase.getPartidos()) {
+            // Verificamos si la selección participó en este partido (ya sea como local o visitante)
+            boolean esLocal = (partido.getSeleccionLocal() != null && partido.getSeleccionLocal().equals(s));
+            boolean esVisitante = (partido.getSeleccionVisitante() != null && partido.getSeleccionVisitante().equals(s));
+
+            if (esLocal || esVisitante) {
+                int golesLocal = partido.getGolesLocal();
+                int golesVisitante = partido.getGolesVisitante();
+
+                if (esLocal) {
+                    // Lógica si la selección jugó en condición de LOCAL
+                    if (golesLocal > golesVisitante) {
+                        puntos += 3; // Victoria local
+                    } else if (golesLocal == golesVisitante) {
+                        puntos += 1; // Empate
+                    }
+                    // Si pierde, suma 0 puntos
+                } else {
+                    // Lógica si la selección jugó en condición de VISITANTE
+                    if (golesVisitante > golesLocal) {
+                        puntos += 3; // Victoria visitante
+                    } else if (golesVisitante == golesLocal) {
+                        puntos += 1; // Empate
+                    }
+                    // Si pierde, suma 0 puntos
+                }
+            }
+        }
+    }
     
+    return puntos;
+    }
+
     //Getters
     public String getIdentificacion() {
         return identificacion;

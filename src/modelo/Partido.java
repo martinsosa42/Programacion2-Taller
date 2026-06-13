@@ -10,6 +10,7 @@ public class Partido {
     private int golesLocal;
     private int golesVisitante;
     private NombreFase fase;
+    private ArrayList<Participacion> participaciones;
 
     // RELACION
     private Seleccion seleccionLocal;
@@ -24,6 +25,7 @@ public class Partido {
     public Partido() {
         this.arbitrajes = new ArrayList<Arbitraje>();
         this.eventos = new ArrayList<Evento>();
+        this.participaciones = new ArrayList<Participacion>();
     }
 
     public Partido(String fecha,
@@ -40,6 +42,7 @@ public class Partido {
         this.estadio = estadio;
         this.arbitrajes = new ArrayList<Arbitraje>();
         this.eventos = new ArrayList<Evento>();
+        this.participaciones = new ArrayList<Participacion>();
     }
 
     // GETTERS
@@ -91,6 +94,10 @@ public class Partido {
         return eventos;
     }
 
+    public ArrayList<Participacion> getParticipaciones() {
+        return participaciones;
+    }
+
     // SETTERS
     public void setFecha(String fecha) {
         this.fecha = fecha;
@@ -140,6 +147,10 @@ public class Partido {
         this.eventos = eventos;
     }
 
+    public void setParticipaciones(ArrayList<Participacion> participaciones) {
+        this.participaciones = participaciones;
+    }
+
     // METODOS
     public void registrarResultado(int golesLocal,
                                    int golesVisitante) {
@@ -153,6 +164,10 @@ public class Partido {
 
     public void agregarArbitraje(Arbitraje arbitraje) {
         arbitrajes.add(arbitraje);
+    }
+
+    public void agregarParticipaciones(Participacion p){
+        participaciones.add(p);
     }
 
     // TOSTRING
