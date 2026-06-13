@@ -23,8 +23,19 @@ public class Jugador extends Persona {
         this.altura = altura;
         this.eventos = new ArrayList<Evento>();
     }
+    // Motetodo ranking de goleadores 
+    public int calcularGoles() {
+    int goles = 0;
+        for (Evento e : eventos) {
 
-    //Getters
+            if (e.getTipo() == TipoEvento.GOL || e.getTipo() == TipoEvento.PENAL_CONVERTIDO) {
+             goles++;
+            }
+        }
+        return goles;
+    }
+    
+        //Getters
     public int getDorsal() {
         return dorsal;
     }
@@ -75,4 +86,6 @@ public class Jugador extends Persona {
                 ", Peso: " + peso +
                 ", Altura: " + altura;
     }
+    
 }
+

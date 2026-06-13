@@ -44,6 +44,8 @@ public class Partido {
         this.eventos = new ArrayList<Evento>();
         this.participaciones = new ArrayList<Participacion>();
     }
+    
+
 
     // GETTERS
     public String getFecha() {
@@ -159,8 +161,15 @@ public class Partido {
     }
 
     public void agregarEvento(Evento evento) {
+    if (evento != null) {
         eventos.add(evento);
+
+        // VINCULACIÓN AUTOMÁTICA: Guarda el evento en la lista propia del jugador
+        if (evento.getJugador() != null) {
+            evento.getJugador().getEventos().add(evento);
+        }
     }
+}
 
     public void agregarArbitraje(Arbitraje arbitraje) {
         arbitrajes.add(arbitraje);

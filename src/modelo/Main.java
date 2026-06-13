@@ -49,6 +49,8 @@ public class Main {
         Sede sedeBA = new Sede("Buenos Aires", 25.0f, "Templado", "GMT-3", paisArg);
         Estadio monumental = new Estadio("Monumental", 85000, sedeBA);
         mundial.agregarSede(sedeBA);
+        Sede sedeRio = new Sede("Rio de Janeiro", 5.0f, "Cálido", "GMT-3", paisBra);
+            mundial.agregarSede(sedeRio);
 
         // 8. ÁRBITROS
         Arbitro collina = new Arbitro("Pierluigi Collina", 19600213, 20, paisArg);
@@ -72,12 +74,16 @@ public class Main {
         partido.agregarArbitraje(new Arbitraje(lopez, CategoriaArbitro.ASISTENTE2));
 
         // 10. EVENTOS Y RESULTADO
-        Evento golMessi = new Evento(TipoEvento.GOL, 15, messi);
-        Evento amarillaVini = new Evento(TipoEvento.TARJETA_AMARILLA, 30, vini);
-        partido.agregarEvento(golMessi);
+        //Evento golMessi = new Evento(TipoEvento.GOL, 15, messi);
+        //Evento golMessi2 = new Evento(TipoEvento.GOL, 30, messi); 
+        Evento golVini = new Evento(TipoEvento.GOL, 35, vini); 
+        Evento amarillaVini = new Evento(TipoEvento.TARJETA_AMARILLA, 23, vini);
+        //partido.agregarEvento(golMessi);
+        //partido.agregarEvento(golMessi2);
+        partido.agregarEvento(golVini);
         partido.agregarEvento(amarillaVini);
 
-        partido.registrarResultado(1, 0); 
+        partido.registrarResultado(2, 1); 
 
         // 11. IMPRESIÓN DE RESULTADOS POR CONSOLA
         System.out.println("===============================================");
@@ -86,5 +92,22 @@ public class Main {
         System.out.println(grupoA.toString());
         System.out.println("===============================================");
         System.out.println(partido.toString());
+    
+    // Instanciamos la clase que creamos pasándole el objeto mundial actual
+       ServicioMundial gestor = new ServicioMundial(mundial);
+        java.util.List<Jugador> ranking = gestor.obtenerRankingGoleadores();
+        
+        if (ranking.isEmpty()) {
+            System.out.println("No se registraron goleadores en el torneo.");
+        } else {
+            int puesto = 1;
+            for (Jugador j : ranking) {
+                System.out.println(puesto + ". " + j.getNombre() + " (" + j.getPosicion() + ") - Goles: " + j.calcularGoles());
+                puesto++;
+            }
+        }
+        System.out.println("===============================================");
     }
 }
+
+
