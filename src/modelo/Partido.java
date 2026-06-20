@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Partido {
 
@@ -160,19 +161,82 @@ public class Partido {
         this.golesVisitante = golesVisitante;
     }
 
-    public void agregarEvento(Evento evento) {
-    if (evento != null) {
-        eventos.add(evento);
-
-        // VINCULACIÓN AUTOMÁTICA: Guarda el evento en la lista propia del jugador
-        if (evento.getJugador() != null) {
-            evento.getJugador().getEventos().add(evento);
+    /* Solo se puede registrar un Evento si el jugador pertenece a la selección local
+    o a la visitante de ESTE partido (regla del enunciado: "los eventos solo pueden
+    asignarse a jugadores que estén participando en dicho partido").
+    */
+    public void agregarEvento(Evento evento) throws EventoJugadorNoParticipaException {
+        if (evento == null || evento.getJugador() == null) {
+            return;
         }
-    }
-}
+        if (!esJugadorParticipante(evento.getJugador())) {
+            throw new EventoJugadorNoParticipaException(evento.getJugador());
+        }
 
-    public void agregarArbitraje(Arbitraje arbitraje) {
+        eventos.add(evento);
+        // VINCULACIÓN AUTOMÁTICA: Guarda el evento en la lista propia del jugador
+        evento.getJugador().getEventos().add(evento);
+    }
+
+    // Un jugador "participa" en el partido si juega para el local o el visitante.
+    public boolean esJugadorParticipante(Jugador jugador) {
+        if (jugador == null) {
+            return false;
+        }
+        boolean enLocal = seleccionLocal != null && seleccionLocal.getJugadores().contains(jugador);
+        boolean enVisitante = seleccionVisitante != null && seleccionVisitante.getJugadores().contains(jugador);
+        return enLocal || enVisitante;
+    }
+
+    // Evita asignar dos árbitros con la misma categoría (ej. dos "PRINCIPAL") al mismo partido.
+    public void agregarArbitraje(Arbitraje arbitraje) throws ArbitrajeInvalidoException {
+        if (arbitraje == null) {
+            return;
+        }
+        for (Arbitraje a : arbitrajes) {
+            if (a.getCategoria() == arbitraje.getCategoria()) {
+                throw new ArbitrajeInvalidoException(
+                        "Ya hay un árbitro asignado con categoría " + arbitraje.getCategoria()
+                        + "; no se puede repetir esa categoría en el mismo partido.");
+            }
+        }
         arbitrajes.add(arbitraje);
+    }
+
+    // Regla del enunciado: "Un Partido debe tener asignado un equipo de Arbitraje válido".
+    // Un equipo válido cubre TODAS las categorías del enum CategoriaArbitro
+    // (PRINCIPAL, ASISTENTE1, ASISTENTE2, CUARTO_ARBITRO, VAR_PRINCIPAL, VAR_ASISTENTE).
+    public boolean tieneArbitrajeValido() {
+        return categoriasFaltantes().isEmpty();
+    }
+
+    // Devuelve la lista de categorías de CategoriaArbitro que todavía no tienen
+    // un árbitro asignado en este partido.
+    public List<CategoriaArbitro> categoriasFaltantes() {
+        List<CategoriaArbitro> faltantes = new ArrayList<>();
+        for (CategoriaArbitro categoria : CategoriaArbitro.values()) {
+            boolean cubierta = false;
+            for (Arbitraje a : arbitrajes) {
+                if (a.getCategoria() == categoria) {
+                    cubierta = true;
+                    break;
+                }
+            }
+            if (!cubierta) {
+                faltantes.add(categoria);
+            }
+        }
+        return faltantes;
+    }
+
+    // Punto de control que usa ServicioMundial antes de dar el partido por registrado.
+    public void validarArbitrajeCompleto() throws ArbitrajeInvalidoException {
+        List<CategoriaArbitro> faltantes = categoriasFaltantes();
+        if (!faltantes.isEmpty()) {
+            throw new ArbitrajeInvalidoException(
+                    "El equipo de arbitraje está incompleto; faltan las categorías: " + faltantes
+                    + ". Un partido necesita un árbitro asignado en cada categoría.");
+        }
     }
 
     public void agregarParticipaciones(Participacion p){

@@ -1,6 +1,146 @@
+import java.util.List;
+import java.util.Scanner;
+
 public class Main {
+
+    ServicioMundial gestion = new ServicioMundial();
+    Scanner sc = new Scanner (System.in);
+
     public static void main(String[] args) {
-        
+
+        cargarDatosDePrueba();
+
+        int opcion;
+        do {
+            mostrarMenuPrincipal();
+            opcion = leerEntero("Opción: ");
+
+            switch (opcion) {
+                case 1 -> menuCargarDatos();
+                case 2 -> menuRegistrarPartido();
+                case 3 -> menuInformes();
+                case 0 -> System.out.println("Saliendo del sistema...");
+                default -> System.out.println("Opción inválida.");
+            }
+
+        } while (opcion != 0);
+
+        sc.close();
+    }
+
+    static void mostrarMenuPrincipal() {
+        System.out.println("\n===========================================");
+        System.out.println(" SISTEMA DE GESTIÓN - MUNDIAL " + (mundial != null ? mundial.getAnio() : ""));
+        System.out.println("===========================================");
+        System.out.println("1. Cargar datos");
+        System.out.println("2. Registrar partido / eventos");
+        System.out.println("3. Ver informes");
+        System.out.println("0. Salir");
+        System.out.println("===========================================");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ServicioMundial gestion = new ServicioMundial();
+
+      
+    
+      //Selecciones para realizar pruebas
+        Seleccion argentina = new Seleccion("AFA", "Celeste y Blanca", "Morada", true, 1, null, null);
+        Seleccion brasil = new Seleccion("CBF", "Amarilla", "Azul", false, 2, null, null);
+        Seleccion francia = new Seleccion("FFF", "Azul", "Blanca", false, 3, null, null);
+        Seleccion alemania = new Seleccion("DFB", "Blanca", "Negra", false, 4, null, null);
+        gestion.agregarSeleccion(argentina);
+        gestion.agregarSeleccion(brasil);
+        gestion.agregarSeleccion(francia);
+        gestion.agregarSeleccion(alemania);
+
+        //Jugadores para realizar pruebas
+        Jugador messi = new Jugador("Lionel Messi", 19870624, 10, Posicion.DELANTERO, 72.0f, 1.70f);
+        Jugador neymar = new Jugador("Neymar Jr.", 19920205, 10, Posicion.DELANTERO, 68.0f, 1.75f);
+        Jugador mbappe = new Jugador("Kylian Mbappé", 19981220, 10, Posicion.DELANTERO, 73.0f, 1.78f);
+        Jugador lewandowski = new Jugador("Robert Lewandowski", 19880821, 9, Posicion.DELANTERO, 80.0f, 1.85f);
+        gestion.agregarJugador(messi);
+        gestion.agregarJugador(neymar);
+        gestion.agregarJugador(mbappe);
+        gestion.agregarJugador(lewandowski);
+
+        //Fases para realizar pruebas
+        Fase faseGrupos = new Fase(NombreFase.GRUPOS);
+        Fase faseOctavos = new Fase(NombreFase.OCTAVOS);
+        Fase faseCuartos = new Fase(NombreFase.CUARTOS);
+        Fase faseSemifinal = new Fase(NombreFase.SEMIFINAL);
+        Fase faseFinal = new Fase(NombreFase.FINAL);
+        gestion.agregarFase(faseGrupos);
+        gestion.agregarFase(faseOctavos);
+        gestion.agregarFase(faseCuartos);
+        gestion.agregarFase(faseSemifinal);
+        gestion.agregarFase(faseFinal);
+
+        //Grupos para realizar pruebas
+        Grupo grupoA = new Grupo("A", "Grupo A del Mundial 2026", faseGrupos);
+        Grupo grupoB = new Grupo("B", "Grupo B del Mundial 2026", faseGrupos);
+        gestion.agregarGrupo(grupoA);
+        gestion.agregarGrupo(grupoB);
+
+        //Paises para realizar pruebas
+        Pais argentina = new Pais("Argentina", "Bandera Argentina", null);
+        Pais brasil = new Pais("Brasil", "Bandera Brasil", null);
+        Pais francia = new Pais("Francia", "Bandera Francia", null);
+        Pais alemania = new Pais("Alemania", "Bandera Alemania", null);
+        gestion.agregarPais(argentina);
+        gestion.agregarPais(brasil);
+        gestion.agregarPais(francia);
+        gestion.agregarPais(alemania);
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //* 
         // 1. INSTANCIA MUNDIAL
         Mundial mundial = new Mundial(2026, "La'eeb", 20260610, 20260710);
 
@@ -108,6 +248,7 @@ public class Main {
         }
         System.out.println("===============================================");
     }
-}
+    */
+
 
 

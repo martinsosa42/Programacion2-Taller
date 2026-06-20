@@ -1,8 +1,8 @@
 public class Persona {
 
     //Atributos
-    protected String nombre;
-    protected int fecNacimiento;
+    private String nombre;
+    private int fecNacimiento;
 
     // Constructor por defecto
     public Persona() {

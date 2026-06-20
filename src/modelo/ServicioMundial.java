@@ -3,51 +3,186 @@ import java.util.ArrayList;
 import java.util.Collections; 
 import java.util.Comparator; 
 public class ServicioMundial {
-    private Mundial mundial; 
+    private Mundial mundial;
+    private List<Jugador> jugadores;
+    private List<Seleccion> selecciones;
+    private List<Grupo> grupos;
+    private List<Fase> fases;
+    private List<Partido> partidos;
+    private List<Pais> paises;
 
-    public ServicioMundial() {
-
-    }
-   public ServicioMundial(Mundial mundial) {
-       this.mundial = mundial; 
+   // Constructor vacío: crea un Mundial en blanco.
+   public ServicioMundial(){
+        this.mundial = new Mundial();
+        this.jugadores = new ArrayList<>();
+        this.selecciones = new ArrayList<>();
+        this.grupos = new ArrayList<>();
+        this.fases = new ArrayList<>();
+        this.partidos = new ArrayList<>();
+        this.paises = new ArrayList<>();
    }   
 
+   // Constructor para que cada instancia gestione UN Mundial concreto.
+   // Para manejar otro Mundial (ej. 2030), simplemente se crea OTRA instancia de ServicioMundial.
+   public ServicioMundial(Mundial mundial){
+        this.mundial = mundial;
+        this.jugadores = new ArrayList<>();
+        this.selecciones = new ArrayList<>();
+        this.grupos = new ArrayList<>();
+        this.fases = new ArrayList<>();
+        this.partidos = new ArrayList<>();
+        this.paises = new ArrayList<>();
+   }
+
+   /*Crea un Mundial y el servicio en un solo paso, sin que el programador tenga que instanciar otro mundial en un futuro.
+    */
+   public ServicioMundial(int anio, String mascota, int fechaDesde, int fechaHasta){
+        this(new Mundial(anio, mascota, fechaDesde, fechaHasta));
+   }
+
+   public Mundial getMundial() {
+        return mundial;
+   }
+
+   public void agregarSeleccion(Seleccion seleccion) {
+        if (!selecciones.contains(seleccion)) {
+            selecciones.add(seleccion);
+        }
+    }
+
+    public void agregarJugador(Jugador jugador) {
+        if (!jugadores.contains(jugador)) {
+            jugadores.add(jugador);
+
+        }
+        
+    }
+
+    /*Busca en qué selección (si en alguna) ya está cargado el jugador. Devuelve null si el jugador todavía no pertenece a ninguna selección.
+    */
+    public Seleccion buscarSeleccionDeJugador(Jugador jugador) {
+        for (Seleccion s : selecciones) {
+            if (s.getJugadores().contains(jugador)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    // Punto para vincular un jugador a una selección, respetando la regla:
+    // "Un jugador solo puede estar vinculado a una selección nacional."
+    public void agregarJugadorASeleccion(Jugador jugador, Seleccion seleccion) throws JugadorYaVinculadoException {
+        if (jugador == null || seleccion == null) {
+            return;
+        }
+
+        Seleccion actual = buscarSeleccionDeJugador(jugador);
+        if (actual != null && actual != seleccion) {
+            throw new JugadorYaVinculadoException(jugador, actual);
+        }
+
+        seleccion.agregarJugador(jugador);
+        agregarJugador(jugador);
+    }
+
+    public void agregarGrupo(Grupo grupo) {
+        if (!grupos.contains(grupo)) {
+            grupos.add(grupo);
+        }
+    }
+
+    public void agregarFase(Fase fase) {
+        if (!fases.contains(fase)) {
+            fases.add(fase);
+        }
+    }
+
+    public void agregarPartido(Partido partido) {
+        if (!partidos.contains(partido)) {
+            partidos.add(partido);
+        }
+    }
+
+    // Punto único para registrar un partido ya completo, respetando la regla:
+    // "Un Partido debe tener asignado un equipo de Arbitraje válido."
+    public void registrarPartido(Partido partido) throws ArbitrajeInvalidoException {
+        if (partido == null) {
+            return;
+        }
+        partido.validarArbitrajeCompleto(); // lanza ArbitrajeInvalidoException si no tiene PRINCIPAL
+        agregarPartido(partido);
+    }
+
+    public void agregarPais(Pais pais) {
+        if (!paises.contains(pais)) {
+            paises.add(pais);
+        }
+    }
+
+    // Delega en el Mundial interno: quien usa ServicioMundial no necesita tocar el objeto Mundial directamente
+    public void agregarSede(Sede sede) {
+        mundial.agregarSede(sede);
+    }
+
+    // Getters de las listas, necesarios para que el Main pueda recorrerlas (ej. armar el menu)
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public List<Seleccion> getSelecciones() {
+        return selecciones;
+    }
+
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public List<Fase> getFases() {
+        return fases;
+    }
+
+    public List<Partido> getPartidos() {
+        return partidos;
+    }
+
+    public List<Pais> getPaises() {
+        return paises;
+    }
+
     public List<Jugador> obtenerRankingGoleadores() {
-    List<Jugador> goleadores = new ArrayList<>();
+        List<Jugador> goleadores = new ArrayList<>();
 
-    // 1. Controlamos que la lista de sedes del mundial no esté vacía
-    if (mundial.getSedes() != null) {
+        // 1. Controlamos que la lista de selecciones registradas no esté vacía
+        if (selecciones != null) {
 
-        for (Sede s : mundial.getSedes()) {
+            for (Seleccion s : selecciones) {
 
-            Pais p = s.getPais();
+                // 2. Validamos que la selección tenga jugadores cargados
+                if (s.getJugadores() != null) {
+                    // 3. Recorremos los jugadores de la selección
+                    for (Jugador j : s.getJugadores()) {
+                        // Filtramos solo a los que anotaron para armar el ranking
+                        if (j.calcularGoles() > 0) {
 
-            // 4. Validamos que el país tenga una selección y que esa selección tenga jugadores
-            if (p != null && p.getSeleccion() != null && p.getSeleccion().getJugadores() != null) {
-                // 5. Recorremos los jugadores de la selección
-                for (Jugador j : p.getSeleccion().getJugadores()) {
-                    // Filtramos solo a los que anotaron para armar el ranking
-                    if (j.calcularGoles() > 0) {
-
-                        if (!goleadores.contains(j)) {
-                            goleadores.add(j);
+                            if (!goleadores.contains(j)) {
+                                goleadores.add(j);
+                            }
                         }
                     }
                 }
             }
         }
+
+        // Ordenamos descendentemente por goles
+        Collections.sort(goleadores, new Comparator<Jugador>() {
+            @Override
+            public int compare(Jugador j1, Jugador j2) {
+                return Integer.compare(j2.calcularGoles(), j1.calcularGoles());
+            }
+        });
+
+        return goleadores;
     }
-
-    // Ordenamos descendentemente por goles
-    Collections.sort(goleadores, new Comparator<Jugador>() {
-        @Override
-        public int compare(Jugador j1, Jugador j2) {
-            return Integer.compare(j2.calcularGoles(), j1.calcularGoles());
-        }
-    });
-
-    return goleadores;
-   }
 
    // 1.1 Tabla de Posiciones por Grupo (Ordenada por puntos y diferencia de gol)
     public List<Seleccion> obtenerTablaPosiciones(Grupo grupo) {
