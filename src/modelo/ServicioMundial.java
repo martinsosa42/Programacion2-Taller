@@ -351,6 +351,4 @@ public class ServicioMundial {
         }
     return ficha;
     }
-
-    
 }
