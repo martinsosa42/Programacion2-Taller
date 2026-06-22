@@ -1,3 +1,4 @@
+
 public class Participacion {
     
     //Atributos

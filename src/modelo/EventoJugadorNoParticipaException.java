@@ -1,3 +1,4 @@
+
 public class EventoJugadorNoParticipaException extends ReglaNegocioMundialException {
  
     public EventoJugadorNoParticipaException(Jugador jugador) {

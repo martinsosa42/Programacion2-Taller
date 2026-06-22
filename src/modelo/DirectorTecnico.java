@@ -1,3 +1,4 @@
+
 public class DirectorTecnico extends Persona {
 
     //Atributo

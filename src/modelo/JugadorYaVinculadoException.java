@@ -1,3 +1,4 @@
+
 public class JugadorYaVinculadoException extends ReglaNegocioMundialException {
  
     public JugadorYaVinculadoException(Jugador jugador, Seleccion seleccionActual) {

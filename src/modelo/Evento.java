@@ -1,3 +1,4 @@
+
 public class Evento {
 
     //Evento de campo. Es composicion de partido, porque se crea dentro de un partido

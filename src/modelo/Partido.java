@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,8 +234,7 @@ public class Partido {
     public void validarArbitrajeCompleto() throws ArbitrajeInvalidoException {
         List<CategoriaArbitro> faltantes = categoriasFaltantes();
         if (!faltantes.isEmpty()) {
-            throw new ArbitrajeInvalidoException(
-                    "El equipo de arbitraje está incompleto; faltan las categorías: " + faltantes
+            throw new ArbitrajeInvalidoException("El equipo de arbitraje está incompleto; faltan las categorías: " + faltantes
                     + ". Un partido necesita un árbitro asignado en cada categoría.");
         }
     }

@@ -1,3 +1,4 @@
+
 public enum TipoEvento {
     //Tipos de eventos que pueden registrarse durante un partido
     GOL,

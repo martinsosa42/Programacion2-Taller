@@ -1,254 +1,184 @@
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Main {
-
-    ServicioMundial gestion = new ServicioMundial();
-    Scanner sc = new Scanner (System.in);
+    // --- ESTAS LÍNEAS TIENEN QUE ESTAR ACÁ ARRIBA ---
+    private static Jugador nuevoJugador = null;
+    private static Partido partido = null;
+    private static ServicioMundial servicio = new ServicioMundial();
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
+        // Cargamos datos ficticios para que puedas probar el menú de una
         cargarDatosDePrueba();
-
-        int opcion;
+        
+        int opcion = -1;
         do {
-            mostrarMenuPrincipal();
-            opcion = leerEntero("Opción: ");
+            System.out.println("\n===========================================");
+            System.out.println("     SISTEMA DE GESTIÓN - MUNDIAL 2026");
+            System.out.println("===========================================");
+            System.out.println("1. Cargar datos manualmente");
+            System.out.println("2. Registrar partido / eventos");
+            System.out.println("3. Ver informes");
+            System.out.println("0. Salir");
+            System.out.println("===========================================");
+            System.out.print("Opción: ");
 
-            switch (opcion) {
-                case 1 -> menuCargarDatos();
-                case 2 -> menuRegistrarPartido();
-                case 3 -> menuInformes();
-                case 0 -> System.out.println("Saliendo del sistema...");
-                default -> System.out.println("Opción inválida.");
+            try {
+                String entrada = scanner.nextLine();
+                opcion = Integer.parseInt(entrada);
+
+                switch (opcion) {
+                    case 1:
+                        System.out.println("\n--- CARGAR NUEVO JUGADOR ---");
+                        
+                        System.out.print("Nombre del jugador: ");
+                        String nombre = scanner.nextLine();
+                        
+                        System.out.print("Año de nacimiento (ej. 1998): ");
+                        int fecNacimiento = Integer.parseInt(scanner.nextLine());
+                        
+                        System.out.print("Número de camiseta (Dorsal): ");
+                        int dorsal = Integer.parseInt(scanner.nextLine());
+                        
+                        // --- MENÚ DE SELECCIÓN DE TU ENUM POSICION ---
+                        System.out.println("Seleccione la posición del jugador:");
+                        System.out.println("1. ARQUERO");
+                        System.out.println("2. DEFENSOR");
+                        System.out.println("3. MEDIOCAMPISTA");
+                        System.out.println("4. DELANTERO");
+                        System.out.print("Opción de posición (1-4): ");
+                        int opcPos = Integer.parseInt(scanner.nextLine());
+                        
+                        Posicion posicion = null;
+                        switch(opcPos) {
+                            case 1: posicion = Posicion.ARQUERO; break;
+                            case 2: posicion = Posicion.DEFENSOR; break;
+                            case 3: posicion = Posicion.MEDIOCAMPISTA; break;
+                            case 4: posicion = Posicion.DELANTERO; break;
+                            default: 
+                                System.out.println("[Aviso] Opción inválida, se asignará ARQUERO por defecto.");
+                                posicion = Posicion.ARQUERO;
+                        }
+                        // ---------------------------------------------
+
+                        System.out.print("Peso (ej. 75.5): ");
+                        float peso = Float.parseFloat(scanner.nextLine());
+                        
+                        System.out.print("Altura (ej. 1.82): ");
+                        float altura = Float.parseFloat(scanner.nextLine());
+
+                        // CREAMOS EL JUGADOR CON TU CONSTRUCTOR PARAMETRIZADO
+                         nuevoJugador = new Jugador(nombre, fecNacimiento, dorsal, posicion, peso, altura);
+
+                        System.out.println("\n✅ ¡Jugador creado con éxito!");
+                        System.out.println("Datos registrados: " + nuevoJugador.toString());
+                        break;
+                    case 2:
+                        System.out.println("\n--- REGISTRAR PARTIDO Y EVENTOS ---");
+                        
+                        System.out.print("Ingrese la fecha del partido (ej. 14/06/2026): ");
+                        String fecha = scanner.nextLine();
+                        
+                        System.out.print("Ingrese la hora (ej. 16:00): ");
+                        String hora = scanner.nextLine();
+                        
+                        System.out.print("Duración en minutos (ej. 90): ");
+                        int duracion = Integer.parseInt(scanner.nextLine());
+                        
+                        System.out.print("Tiempo adicional (ej. 5): ");
+                        int tiempoAdicional = Integer.parseInt(scanner.nextLine());
+                        
+                        NombreFase fase = null; 
+                        Estadio estadio = new Estadio(); 
+                        
+                        // USAMOS LA VARIABLE GLOBAL SIN "Partido" ADELANTE
+                        partido = new Partido(fecha, hora, duracion, tiempoAdicional, fase, estadio);
+                        
+                        Seleccion local = new Seleccion();
+                        local.setNombreFederacion("Argentina");
+                        Seleccion visitante = new Seleccion();
+                        visitante.setNombreFederacion("Francia");
+                        
+                        partido.setSeleccionLocal(local);
+                        partido.setSeleccionVisitante(visitante);
+
+                        System.out.println("\n--- REGISTRAR RESULTADO ---");
+                        System.out.print("Goles de " + local.getNombreFederacion() + ": ");
+                        int gL = Integer.parseInt(scanner.nextLine());
+                        System.out.print("Goles de " + visitante.getNombreFederacion() + ": ");
+                        int gV = Integer.parseInt(scanner.nextLine());
+                        
+                        partido.registrarResultado(gL, gV);
+
+                        System.out.println("\n--- REGISTRAR EVENTO EN EL PARTIDO ---");
+                        System.out.print("Minuto del evento: ");
+                        int minuto = Integer.parseInt(scanner.nextLine());
+                        
+                        if (nuevoJugador != null) {
+                            local.agregarJugador(nuevoJugador); 
+                            TipoEvento tipoE = TipoEvento.GOL; 
+                            Evento nuevoEvento = new Evento(tipoE, minuto, nuevoJugador);
+                            
+                            try {
+                                partido.agregarEvento(nuevoEvento);
+                                System.out.println("✅ Evento (GOL) asignado con éxito al jugador: " + nuevoJugador.getNombre());
+                            } catch (EventoJugadorNoParticipaException e) {
+                                System.out.println("❌ Error: " + e.getMessage());
+                            }
+                        } else {
+                            System.out.println("[Aviso] No hay un jugador creado previamente en la Opción 1 para simular el evento.");
+                        }
+                        break; // <-- Importante: acá solo frena, NO imprime nada en pantalla.
+                    case 3:
+                        mostrarInformes(); // Llama al método de abajo
+                        break;
+                    case 0:
+                        System.out.println("\n¡Gracias por usar el sistema! Saliendo...");
+                        break;
+                    default:
+                        System.out.println("\n❌ Opción inválida. Intente nuevamente.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\n❌ Error: Por favor, ingrese un número válido.");
+                opcion = -1;
             }
-
         } while (opcion != 0);
-
-        sc.close();
     }
 
-    static void mostrarMenuPrincipal() {
+    private static void cargarDatosDePrueba() {
+        System.out.println("Datos de prueba cargados automáticamente.");
+        // Acá tu ServicioMundial o clase Mundial debería inicializar 
+        // algunos países, selecciones y jugadores de prueba.
+    }
+
+   private static void mostrarInformes() {
         System.out.println("\n===========================================");
-        System.out.println(" SISTEMA DE GESTIÓN - MUNDIAL " + (mundial != null ? mundial.getAnio() : ""));
+        System.out.println("            INFORMES DEL MUNDIAL");
         System.out.println("===========================================");
-        System.out.println("1. Cargar datos");
-        System.out.println("2. Registrar partido / eventos");
-        System.out.println("3. Ver informes");
-        System.out.println("0. Salir");
-        System.out.println("===========================================");
-    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ServicioMundial gestion = new ServicioMundial();
-
-      
-    
-      //Selecciones para realizar pruebas
-        Seleccion argentina = new Seleccion("AFA", "Celeste y Blanca", "Morada", true, 1, null, null);
-        Seleccion brasil = new Seleccion("CBF", "Amarilla", "Azul", false, 2, null, null);
-        Seleccion francia = new Seleccion("FFF", "Azul", "Blanca", false, 3, null, null);
-        Seleccion alemania = new Seleccion("DFB", "Blanca", "Negra", false, 4, null, null);
-        gestion.agregarSeleccion(argentina);
-        gestion.agregarSeleccion(brasil);
-        gestion.agregarSeleccion(francia);
-        gestion.agregarSeleccion(alemania);
-
-        //Jugadores para realizar pruebas
-        Jugador messi = new Jugador("Lionel Messi", 19870624, 10, Posicion.DELANTERO, 72.0f, 1.70f);
-        Jugador neymar = new Jugador("Neymar Jr.", 19920205, 10, Posicion.DELANTERO, 68.0f, 1.75f);
-        Jugador mbappe = new Jugador("Kylian Mbappé", 19981220, 10, Posicion.DELANTERO, 73.0f, 1.78f);
-        Jugador lewandowski = new Jugador("Robert Lewandowski", 19880821, 9, Posicion.DELANTERO, 80.0f, 1.85f);
-        gestion.agregarJugador(messi);
-        gestion.agregarJugador(neymar);
-        gestion.agregarJugador(mbappe);
-        gestion.agregarJugador(lewandowski);
-
-        //Fases para realizar pruebas
-        Fase faseGrupos = new Fase(NombreFase.GRUPOS);
-        Fase faseOctavos = new Fase(NombreFase.OCTAVOS);
-        Fase faseCuartos = new Fase(NombreFase.CUARTOS);
-        Fase faseSemifinal = new Fase(NombreFase.SEMIFINAL);
-        Fase faseFinal = new Fase(NombreFase.FINAL);
-        gestion.agregarFase(faseGrupos);
-        gestion.agregarFase(faseOctavos);
-        gestion.agregarFase(faseCuartos);
-        gestion.agregarFase(faseSemifinal);
-        gestion.agregarFase(faseFinal);
-
-        //Grupos para realizar pruebas
-        Grupo grupoA = new Grupo("A", "Grupo A del Mundial 2026", faseGrupos);
-        Grupo grupoB = new Grupo("B", "Grupo B del Mundial 2026", faseGrupos);
-        gestion.agregarGrupo(grupoA);
-        gestion.agregarGrupo(grupoB);
-
-        //Paises para realizar pruebas
-        Pais argentina = new Pais("Argentina", "Bandera Argentina", null);
-        Pais brasil = new Pais("Brasil", "Bandera Brasil", null);
-        Pais francia = new Pais("Francia", "Bandera Francia", null);
-        Pais alemania = new Pais("Alemania", "Bandera Alemania", null);
-        gestion.agregarPais(argentina);
-        gestion.agregarPais(brasil);
-        gestion.agregarPais(francia);
-        gestion.agregarPais(alemania);
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //* 
-        // 1. INSTANCIA MUNDIAL
-        Mundial mundial = new Mundial(2026, "La'eeb", 20260610, 20260710);
-
-        // 2. FASES Y GRUPOS
-        Fase faseGrupos = new Fase(NombreFase.GRUPOS);
-        Grupo grupoA = new Grupo("A", "Grupo A del Mundial 2026", faseGrupos);
-        faseGrupos.agregarGrupo(grupoA);
-
-        // 3. PAÍSES 
-        Pais paisArg = new Pais("Argentina", "Bandera Argentina", null);
-        Pais paisBra = new Pais("Brasil", "Bandera Brasil", null);
-
-        // 4. SELECCIONES Y VINCULARLAS A SUS PAÍSES
-        Seleccion arg = new Seleccion("AFA", "Celeste y Blanca", "Morada", true, 1, paisArg, grupoA);
-        paisArg.setSeleccion(arg); // Vinculación bidireccional
-
-        Seleccion bra = new Seleccion("CBF", "Amarilla", "Azul", false, 2, paisBra, grupoA);
-        paisBra.setSeleccion(bra); // Vinculación bidireccional
-
-        // Agregamos las selecciones al grupo
-        grupoA.agregarSeleccion(arg);
-        grupoA.agregarSeleccion(bra);
-
-        // 5. PERSONAL Y CUERPO TÉCNICO
-        DirectorTecnico dtArg = new DirectorTecnico("Lionel Scaloni", 19780516, 2018);
-        arg.agregarDirectorTecnico(dtArg);
-        
-        DirectorTecnico dtBra = new DirectorTecnico("Dorival Junior", 19620425, 2024);
-        bra.agregarDirectorTecnico(dtBra);
-
-        CuerpoTecnico ctArg = new CuerpoTecnico("Pablo Aimar", 19791103, Rol.AYUDANTE_CAMPO);
-        arg.agregarCuerpoTecnico(ctArg);
-
-        // 6. JUGADORES Y ASIGNARLOS
-        Jugador messi = new Jugador("Lionel Messi", 19870624, 10, Posicion.DELANTERO, 72.0f, 1.70f);
-        Jugador alvarez = new Jugador("Julian Alvarez", 20000131, 9, Posicion.DELANTERO, 71.0f, 1.70f);
-        arg.agregarJugador(messi);
-        arg.agregarJugador(alvarez);
-
-        Jugador vini = new Jugador("Vinicius Junior", 20000712, 7, Posicion.DELANTERO, 73.0f, 1.76f);
-        Jugador neymar = new Jugador("Neymar Junior", 19920205, 10, Posicion.DELANTERO, 68.0f, 1.75f);
-        bra.agregarJugador(vini);
-        bra.agregarJugador(neymar);
-
-        // 7. SEDES Y ESTADIOS
-        Sede sedeBA = new Sede("Buenos Aires", 25.0f, "Templado", "GMT-3", paisArg);
-        Estadio monumental = new Estadio("Monumental", 85000, sedeBA);
-        mundial.agregarSede(sedeBA);
-        Sede sedeRio = new Sede("Rio de Janeiro", 5.0f, "Cálido", "GMT-3", paisBra);
-            mundial.agregarSede(sedeRio);
-
-        // 8. ÁRBITROS
-        Arbitro collina = new Arbitro("Pierluigi Collina", 19600213, 20, paisArg);
-        Arbitro diaz = new Arbitro("Roberto Diaz", 19800101, 10, paisArg);
-        Arbitro lopez = new Arbitro("Carlos Lopez", 19820101, 8, paisArg);
-
-        // 9. ORGANIZAR EL PARTIDO
-        Partido partido = new Partido("10/06/2026", "18:00", 90, 5, NombreFase.GRUPOS, monumental);
-        partido.setSeleccionLocal(arg);
-        partido.setSeleccionVisitante(bra);
-
-        // Registrar las participaciones de las selecciones en el partido
-        Participacion partArg = new Participacion(true, arg, partido);
-        Participacion partBra = new Participacion(false, bra, partido);
-        arg.agregarParticipacion(partArg);
-        bra.agregarParticipacion(partBra);
-
-        // Asignar el arbitraje al partido
-        partido.agregarArbitraje(new Arbitraje(collina, CategoriaArbitro.PRINCIPAL));
-        partido.agregarArbitraje(new Arbitraje(diaz, CategoriaArbitro.ASISTENTE1));
-        partido.agregarArbitraje(new Arbitraje(lopez, CategoriaArbitro.ASISTENTE2));
-
-        // 10. EVENTOS Y RESULTADO
-        //Evento golMessi = new Evento(TipoEvento.GOL, 15, messi);
-        //Evento golMessi2 = new Evento(TipoEvento.GOL, 30, messi); 
-        Evento golVini = new Evento(TipoEvento.GOL, 35, vini); 
-        Evento amarillaVini = new Evento(TipoEvento.TARJETA_AMARILLA, 23, vini);
-        //partido.agregarEvento(golMessi);
-        //partido.agregarEvento(golMessi2);
-        partido.agregarEvento(golVini);
-        partido.agregarEvento(amarillaVini);
-
-        partido.registrarResultado(2, 1); 
-
-        // 11. IMPRESIÓN DE RESULTADOS POR CONSOLA
-        System.out.println("===============================================");
-        System.out.println(mundial.toString());
-        System.out.println("===============================================");
-        System.out.println(grupoA.toString());
-        System.out.println("===============================================");
-        System.out.println(partido.toString());
-    
-    // Instanciamos la clase que creamos pasándole el objeto mundial actual
-       ServicioMundial gestor = new ServicioMundial(mundial);
-        java.util.List<Jugador> ranking = gestor.obtenerRankingGoleadores();
-        
-        if (ranking.isEmpty()) {
-            System.out.println("No se registraron goleadores en el torneo.");
+        // 1. INFORME DE JUGADORES
+        System.out.println("📋 [Informe] Último Jugador Registrado:");
+        if (nuevoJugador != null) {
+            System.out.println(nuevoJugador.toString());
+            System.out.println("⚽ Goles totales calculados en el torneo: " + nuevoJugador.calcularGoles());
         } else {
-            int puesto = 1;
-            for (Jugador j : ranking) {
-                System.out.println(puesto + ". " + j.getNombre() + " (" + j.getPosicion() + ") - Goles: " + j.calcularGoles());
-                puesto++;
-            }
+            System.out.println("❌ No hay ningún jugador cargado en el sistema todavía (Usá la Opción 1).");
+        } 
+
+        System.out.println("\n-------------------------------------------");
+
+        // 2. INFORME DE PARTIDOS
+        System.out.println("🎬 [Informe] Último Partido Registrado:");
+        if (partido != null) {
+            System.out.println(partido.toString());
+        } else {
+            System.out.println("❌ No hay ningún partido registrado en el sistema todavía (Usá la Opción 2).");
         }
-        System.out.println("===============================================");
+        
+        System.out.println("\n⚙️ Sistema de control (Servicio): " + servicio.hashCode());
+        System.out.println("===========================================");
     }
-    */
-
-
-
+        
+       
+}

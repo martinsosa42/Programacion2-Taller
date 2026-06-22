@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class Jugador extends Persona {
@@ -33,6 +34,14 @@ public class Jugador extends Persona {
             }
         }
         return goles;
+    }
+    public void agregarEvento(Evento evento) {
+        if (evento != null) {
+            if (this.eventos == null) {
+                this.eventos = new ArrayList<>();
+            }
+            this.eventos.add(evento);
+        }
     }
     
         //Getters

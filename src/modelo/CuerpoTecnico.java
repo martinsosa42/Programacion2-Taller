@@ -1,3 +1,4 @@
+
 public class CuerpoTecnico extends Persona {
 
     //Rol que cumple dentro del cuerpo tecnico
